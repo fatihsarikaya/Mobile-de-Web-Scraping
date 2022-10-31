@@ -801,7 +801,7 @@ def fonksiyon (i):
         cursor.execute(mySql_insert_query, val)  # cursor.executemany(mySql_insert_query, tuple_of_tuples)
 
         scrap_db.commit()
-        print(cursor.rowcount, "Record inserted successfully into CARS table")
+        print(cursor.rowcount, "Record inserted successfully into *CARS* table")
 
         # Disconnect from server
         # scrap_db.close()
