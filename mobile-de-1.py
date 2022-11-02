@@ -200,7 +200,6 @@ car_data_base['download_date_time'] = datetime_string
 config = configparser.RawConfigParser()
 config.read(filenames = 'my.properties')
 
-
 scrap_db = pymysql.connect(host='localhost',user='root',password='',database='mobile_de',charset='utf8mb4',cursorclass=pymysql.cursors.DictCursor)
 
 cursor = scrap_db.cursor()

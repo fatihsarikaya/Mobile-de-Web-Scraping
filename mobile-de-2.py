@@ -64,25 +64,27 @@ dataframe = pd.DataFrame(data_dict)
 
 #print("dataframe:",dataframe)
 
-
-
 make_model_data = dataframe
 
 #print("make_model_data:",make_model_data)
 
+# Tüm linkleri çekmek için;
+# x = 0 
+# y = 2476
+
 x=1  # Buradaki x=1 , db'de -> id = 2 ye denk gelir. ( Audi - 200 linkinden gelen ilanlarin adlinks'lerini toplayacaktır. (6 adet ilanın linkleri veritabanına kaydedilir.)
 y=2  # Buradaki y=2 , db'de -> id = 3 e denk gelir. Fakat id = 3 scraping'e dahil değildir
-#
-#number = np.arange(x,y)
 
 print(dataframe.link[x:y])
 
-def fonksiyon(i):
+number = np.arange(x,y)
 
-    global x
-    global y
+#def fonksiyon(i):
 
-#for i in  tqdm(number):
+#    global x
+#    global y
+
+for i in  tqdm(number):
     make_model_input_link = make_model_data.link[i]
 
     sleep = 1
@@ -90,7 +92,7 @@ def fonksiyon(i):
     save_to_csv = False
 
     fireFoxOptions = Options()
-    #fireFoxOptions.binary_location = r'C:\Program Files\Firefox Developer Edition\firefox.exe'
+    fireFoxOptions.binary_location = r'C:\Program Files\Firefox Developer Edition\firefox.exe' # PC"ye Firefox Developer yüklenmelidir.
     fireFoxOptions.add_argument("--headless")
     #fireFoxOptions.add_argument("--window-size=1920,1080")
     #fireFoxOptions.add_argument('--start-maximized')
@@ -143,7 +145,7 @@ def fonksiyon(i):
         #Her seferinde web driver i yeniden başlatıyoruz ki captcha ya takılıp block olmayalım !!!
 
         fireFoxOptions = Options()
-        #fireFoxOptions.binary_location = r'C:\Program Files\Firefox Developer Edition\firefox.exe'
+        fireFoxOptions.binary_location = r'C:\Program Files\Firefox Developer Edition\firefox.exe'
         fireFoxOptions.add_argument("--headless")
         #fireFoxOptions.add_argument("--window-size=1920,1080")
         #fireFoxOptions.add_argument('--start-maximized')
@@ -269,6 +271,7 @@ def fonksiyon(i):
 
     sql = """CREATE TABLE adlinks_de_mileage_asc(
         
+        id int(11),
         count int(11),
         carlist_id int(11),
         brand_model VARCHAR(32),
@@ -290,6 +293,7 @@ def fonksiyon(i):
         #print(chunk[0])
         #print("-------------------------------------------------------")
 
+        id = 0
         count = ""
         carlist_id = ""
         brand_model = ""
@@ -313,7 +317,9 @@ def fonksiyon(i):
         links_on_one_page_df = links_on_one_page_df.replace(np.nan, "")
 
         for l in range(len_for_ad_link):
-
+            
+            id +=1
+            
             try:
                 count = l + 1
             except:
@@ -350,8 +356,8 @@ def fonksiyon(i):
                 control = "true"
 
             if control == "true":
-                mySql_insert_query = "INSERT INTO adlinks_de_mileage_asc (count,carlist_id,brand_model,ad_link,link,created_at,updated_at,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-                val =                                                    (count,carlist_id,brand_model,ad_link,link,created_at,updated_at,status)
+                mySql_insert_query = "INSERT INTO adlinks_de_mileage_asc (id,count,carlist_id,brand_model,ad_link,link,created_at,updated_at,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                val =                                                    (id,count,carlist_id,brand_model,ad_link,link,created_at,updated_at,status)
 
                 #cursor = scrap_db.cursor()
                 cursor.execute(mySql_insert_query, val) # cursor.executemany(mySql_insert_query, tuple_of_tuples)
@@ -361,10 +367,10 @@ def fonksiyon(i):
 
                 #Disconnect from server
                 #scrap_db.close()
-        #x +=  1
+'''
 if __name__ == '__main__':
     with concurrent.futures.ProcessPoolExecutor() as executor:  # ThreadPoolExecutor
         i = list(range(x,y))    # i = [0,1,2,3...100]
         executor.map(fonksiyon,i)
-
+'''
 
