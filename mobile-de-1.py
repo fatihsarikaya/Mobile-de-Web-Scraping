@@ -23,24 +23,23 @@ from random import randrange
 from tqdm import tqdm #progress bar
 from datetime import datetime
 
-fireFoxOptions = Options()
-fireFoxOptions.binary_location = r'C:\Program Files\Firefox Developer Edition\firefox.exe'  # PC"ye Firefox Developer yüklenmelidir.
-fireFoxOptions.add_argument("--headless") 
-#fireFoxOptions.add_argument("--window-size=1920,1080")
-#fireFoxOptions.add_argument('--start-maximized')
-fireFoxOptions.add_argument('--disable-gpu')
-fireFoxOptions.add_argument('--no-sandbox')
+#fireFoxOptions = Options()
+#fireFoxOptions.binary_location = r'C:\Program Files\Firefox Developer Edition\firefox.exe'  # PC"ye Firefox Developer yüklenmelidir.
+#fireFoxOptions.add_argument("--headless") 
+##fireFoxOptions.add_argument("--window-size=1920,1080")
+##fireFoxOptions.add_argument('--start-maximized')
+#fireFoxOptions.add_argument('--disable-gpu')
+#fireFoxOptions.add_argument('--no-sandbox')
 
-driver = webdriver.Firefox(options=fireFoxOptions)
+#driver = webdriver.Firefox(options=fireFoxOptions)
 
 
-#options = webdriver.ChromeOptions()
+options = webdriver.ChromeOptions()
 prefs = {"profile.managed_default_content_settings.images": 2}
-#options.add_experimental_option("prefs", prefs)
-
-#service = Service(executable_path='C:/Users/Fatih/Desktop/autoscout24/chromedriver.exe')
-#driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-#driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+options.add_experimental_option("prefs", prefs)
+service = Service(executable_path='C:/Users/Fatih/Desktop/autoscout24/chromedriver.exe')
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 starting_link_to_scrape = "https://www.mobile.de/?lang=en"
 driver.get(starting_link_to_scrape)
@@ -179,10 +178,10 @@ car_data_base = car_data_base.drop_duplicates()
 
 car_data_base['link'] = "https://suchen.mobile.de/fahrzeuge/search.html?cn=DE&dam=0&isSearchRequest=true&ms=" + car_data_base['brand_id'] + ";" + car_data_base['model_id'] + "&ref=quickSearch&sfmr=false&vc=Car&sortOption.sortBy=specifics.mileage&sortOption.sortOrder=ASCENDING" #mileage_asc
 car_data_base = car_data_base.reset_index(drop=True)
-car_data_base.maximize_windows()
+
 
 #if len(save_filename) > 0:
-car_data_base.to_csv(r'C:\Users\Fatih\Desktop\make_and_model_links.csv', encoding='utf-8', index=False)
+#car_data_base.to_csv(r'C:\Users\Fatih\Desktop\make_and_model_links.csv', encoding='utf-8', index=False)
 #return(car_data_base)
 
 #make_model_data = pd.read_csv(r'C:\Users\Fatih\Desktop\make_and_model_links.csv')
@@ -218,7 +217,7 @@ sql = """CREATE TABLE carlist_de_mileage_asc(
         status tinyint(3)
         )"""
         
-#cursor.execute(sql)
+cursor.execute(sql)
 
 for row_count in range(0, 1): 
         chunk = car_data_base.iloc[row_count:row_count + 1,:].values.tolist()
