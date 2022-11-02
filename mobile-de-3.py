@@ -81,7 +81,7 @@ def fonksiyon (i):
     print(ad_link)
 
     fireFoxOptions = Options()
-    fireFoxOptions.binary_location = r'C:\Program Files\Firefox Developer Edition\firefox.exe'  
+    fireFoxOptions.binary_location = r'C:\Program Files\Firefox Developer Edition\firefox.exe'  # PC"ye Firefox Developer yüklenmelidir. 
     fireFoxOptions.add_argument("--headless") 
     #fireFoxOptions.add_argument("--window-size=1920,1080")
     #fireFoxOptions.add_argument('--start-maximized')
