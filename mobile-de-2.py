@@ -79,12 +79,12 @@ print(dataframe.link[x:y])
 
 number = np.arange(x,y)
 
-#def fonksiyon(i):
+def fonksiyon(i):
+    global x
+    global y
 
-#    global x
-#    global y
+#for i in  tqdm(number):
 
-for i in  tqdm(number):
     make_model_input_link = make_model_data.link[i]
 
     sleep = 1
@@ -367,10 +367,10 @@ for i in  tqdm(number):
 
                 #Disconnect from server
                 #scrap_db.close()
-'''
+
 if __name__ == '__main__':
     with concurrent.futures.ProcessPoolExecutor() as executor:  # ThreadPoolExecutor
         i = list(range(x,y))    # i = [0,1,2,3...100]
         executor.map(fonksiyon,i)
-'''
+
 
