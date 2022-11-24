@@ -90,9 +90,9 @@ for one_make in tqdm(car_base_make_data['brand'], "Progress: "):
     
     j=0  
     
-    x = 127   # x = 4  yazılırsa eğer  ; ilk 3 arabanın marka-model linkleri db'e kayıt olunur. ( Audi, BMW ve Mercedes-Benz )   
+    x = 124   # x = 4  yazılırsa eğer  ; ilk 3 arabanın marka-model linkleri db'e kayıt olunur. ( Audi, BMW ve Mercedes-Benz )   
     
-    # 126 marka araba var !!! ( x = 127 yazarak 126 marka aracın yani tüm araçların marka-model linklerini çekebiliriz )
+    # 123 marka araba var !!! ( x = 124 yazarak 123 marka aracın yani tüm araçların marka-model linklerini çekebiliriz )
   
     
     while j < x:  
