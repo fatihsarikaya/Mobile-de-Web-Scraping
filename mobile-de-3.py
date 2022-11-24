@@ -106,7 +106,7 @@ def fonksiyon (i):
 
     #start a driver
 
-#        service = Service(executable_path = r'C:\Users\Administrator.FATIHSARIKAYA\Desktop\mobile-de\chromedriver.exe')
+#        service = Service(executable_path = r'C:\Users\Fatih\Desktop\mobile-de\chromedriver.exe')
 #        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
     # Go to webpage and scrape data
