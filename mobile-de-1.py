@@ -37,7 +37,7 @@ from datetime import datetime
 options = webdriver.ChromeOptions()
 prefs = {"profile.managed_default_content_settings.images": 2}
 options.add_experimental_option("prefs", prefs)
-service = Service(executable_path='C:/Users/Fatih/Desktop/mobile-de/chromedriver.exe')
+service = Service(executable_path = r'C:\Users\Fatih\Desktop\mobile-de\chromedriver.exe')
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
