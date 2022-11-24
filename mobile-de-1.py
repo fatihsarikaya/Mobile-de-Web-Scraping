@@ -219,7 +219,7 @@ sql = """CREATE TABLE carlist_de_mileage_asc(
         status tinyint(3)
         )"""
         
-cursor.execute(sql)
+#cursor.execute(sql)   #Save data to the table
 
 for row_count in range(0, 1): 
         chunk = car_data_base.iloc[row_count:row_count + 1,:].values.tolist()
