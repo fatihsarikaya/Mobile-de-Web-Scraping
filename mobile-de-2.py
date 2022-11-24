@@ -45,7 +45,7 @@ from selenium.webdriver.firefox.options import Options
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="",
+  password="1234",
   database="mobile_de"
 )
 mycursor = mydb.cursor()
@@ -82,9 +82,8 @@ number = np.arange(x,y)
 def fonksiyon(i):
     global x
     global y
-
+    
 #for i in  tqdm(number):
-
     make_model_input_link = make_model_data.link[i]
 
     sleep = 1
@@ -103,19 +102,15 @@ def fonksiyon(i):
 
 #    options = Options()
 #    options = webdriver.ChromeOptions()
-
-    #options.set_headless = True
-    #options.add_argument('--disable-gpu')
-    #options.add_argument("--window-size=1920x1080")
-
+#    options.set_headless = True
+#    options.add_argument('--disable-gpu')
+#    options.add_argument("--window-size=1920x1080")
 #    options.headless = True
 #    options.add_argument("--headless")
-
-    prefs = {"profile.managed_default_content_settings.images": 2}
-#   options.add_experimental_option("prefs", prefs)
-
-    #start a driver
-    #service = Service(executable_path = r'C:\Users\Fatih\Desktop\mobile-de\chromedriver.exe')
+#    prefs = {"profile.managed_default_content_settings.images": 2}
+#    options.add_experimental_option("prefs", prefs)
+#    #start a driver
+#    service = Service(executable_path = r'C:\Users\Administrator.FATIHSARIKAYA\Desktop\mobile-de\chromedriver.exe')
 #    driver = webdriver.Chrome(options=options)
 #    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
@@ -159,7 +154,7 @@ def fonksiyon(i):
 #       options.add_experimental_option("prefs", prefs)
 
         #start a driver
-        #service = Service(executable_path = r'C:\Users\Fatih\Desktop\mobile-de\chromedriver.exe')
+        #service = Service(executable_path='C:/Users/Fatih/Desktop/autoscout24/chromedriver.exe')
 #       driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
         # Sırayla sayfalara (1 den 20 ye) gitmemiz gerekiyor !!!  #
@@ -191,6 +186,8 @@ def fonksiyon(i):
     links_on_one_page_df = pd.DataFrame({'ad_link' : links_on_multiple_pages}) # Dataframe oluşturulur !!!
     #drop duplicates
     links_on_one_page_df = links_on_one_page_df.drop_duplicates()
+    
+    #print(links_on_one_page_df)
 
     links_on_one_page_df['make_model_link'] = make_model_input_link # Bu sayede linklerin hangi marka ve modele ait olduğunu görebiliriz !!!
 
@@ -259,7 +256,7 @@ def fonksiyon(i):
     config.read(filenames = 'my.properties')
     #print(config.sections())
 
-    scrap_db = pymysql.connect(host='localhost',user='root',password='',database='mobile_de',charset='utf8mb4',cursorclass=pymysql.cursors.DictCursor)
+    scrap_db = pymysql.connect(host='localhost',user='root',password='1234',database='mobile_de',charset='utf8mb4',cursorclass=pymysql.cursors.DictCursor)
 
     cursor = scrap_db.cursor()
 
@@ -282,7 +279,7 @@ def fonksiyon(i):
         status tinyint(3)
         )"""
 
-    cursor.execute(sql)   #Save data to the table
+    #cursor.execute(sql)   #Save data to the table
 
     #control = "false"
 
