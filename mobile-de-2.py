@@ -100,19 +100,12 @@ def fonksiyon(i):
 
     driver = webdriver.Firefox(options=fireFoxOptions)
 
-#    options = Options()
-#    options = webdriver.ChromeOptions()
-#    options.set_headless = True
-#    options.add_argument('--disable-gpu')
-#    options.add_argument("--window-size=1920x1080")
-#    options.headless = True
-#    options.add_argument("--headless")
-#    prefs = {"profile.managed_default_content_settings.images": 2}
-#    options.add_experimental_option("prefs", prefs)
-#    #start a driver
-#    service = Service(executable_path = r'C:\Users\Administrator.FATIHSARIKAYA\Desktop\mobile-de\chromedriver.exe')
-#    driver = webdriver.Chrome(options=options)
-#    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    #options = webdriver.ChromeOptions()
+    #prefs = {"profile.managed_default_content_settings.images": 2}
+    #options.add_experimental_option("prefs", prefs)
+    #service = Service(executable_path = r'C:\Users\Fatih\Desktop\mobile-de\chromedriver.exe')
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    #driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
     #get the number of pages
     driver.get(make_model_input_link)
