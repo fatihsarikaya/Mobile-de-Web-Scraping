@@ -92,13 +92,23 @@ def fonksiyon (i):
 
     sleep_time = 5
 
-    #options = webdriver.ChromeOptions()
-    #prefs = {"profile.managed_default_content_settings.images": 2}
-    #options.add_experimental_option("prefs", prefs)
-    #service = Service(executable_path = r'C:\Users\Fatih\Desktop\mobile-de\chromedriver.exe')
-    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    #driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+#        options = Options()
+#        options = webdriver.ChromeOptions()
     
+    #options.headless = True
+    #options.add_argument("--window-size=1920,1080")
+    #options.add_argument("--headless")
+    #options.add_argument("--disable-gpu")
+    #options.add_argument("--no-sandbox")
+    
+#        prefs = {"profile.managed_default_content_settings.images": 2} # this is to not load images
+#        options.add_experimental_option("prefs", prefs)
+
+    #start a driver
+
+#        service = Service(executable_path = r'C:\Users\Administrator.FATIHSARIKAYA\Desktop\mobile-de\chromedriver.exe')
+#        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
     # Go to webpage and scrape data
 
     # Test for Audi 100
@@ -442,7 +452,7 @@ def fonksiyon (i):
         colour VARCHAR(16),
         manufacturer_colour VARCHAR(16),
         interior_design VARCHAR(16),
-
+        parking_sensors VARCHAR(16),
         features VARCHAR(2048),
         vehicle_description VARCHAR(4096),
         car_picture_link VARCHAR(256),
