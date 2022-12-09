@@ -41,6 +41,7 @@ import numpy as np
 import re
 import itertools
 from selenium.webdriver.firefox.options import Options
+from icecream import ic
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -79,11 +80,12 @@ print(dataframe.link[x:y])
 
 number = np.arange(x,y)
 
-def fonksiyon(i):
-    global x
-    global y
-    
-#for i in  tqdm(number):
+#def fonksiyon(i):
+
+#    global x
+#    global y
+
+for i in  tqdm(number):
     make_model_input_link = make_model_data.link[i]
 
     sleep = 1
@@ -100,12 +102,23 @@ def fonksiyon(i):
 
     driver = webdriver.Firefox(options=fireFoxOptions)
 
-    #options = webdriver.ChromeOptions()
-    #prefs = {"profile.managed_default_content_settings.images": 2}
-    #options.add_experimental_option("prefs", prefs)
-    #service = Service(executable_path = r'C:\Users\Fatih\Desktop\mobile-de\chromedriver.exe')
-    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    #driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+#    options = Options()
+#    options = webdriver.ChromeOptions()
+
+    #options.set_headless = True
+    #options.add_argument('--disable-gpu')
+    #options.add_argument("--window-size=1920x1080")
+
+#    options.headless = True
+#    options.add_argument("--headless")
+
+    prefs = {"profile.managed_default_content_settings.images": 2}
+#   options.add_experimental_option("prefs", prefs)
+
+    #start a driver
+    #service = Service(executable_path='C:/Users/Fatih/Desktop/autoscout24/chromedriver.exe')
+#    driver = webdriver.Chrome(options=options)
+#    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
     #get the number of pages
     driver.get(make_model_input_link)
@@ -179,8 +192,6 @@ def fonksiyon(i):
     links_on_one_page_df = pd.DataFrame({'ad_link' : links_on_multiple_pages}) # Dataframe oluşturulur !!!
     #drop duplicates
     links_on_one_page_df = links_on_one_page_df.drop_duplicates()
-    
-    #print(links_on_one_page_df)
 
     links_on_one_page_df['make_model_link'] = make_model_input_link # Bu sayede linklerin hangi marka ve modele ait olduğunu görebiliriz !!!
 
@@ -275,6 +286,22 @@ def fonksiyon(i):
     #cursor.execute(sql)   #Save data to the table
 
     #control = "false"
+    
+    ##########
+    sql = "SELECT carlist_id FROM adlinks_de_mileage_asc"
+
+    mycursor.execute(sql)
+
+    columns = [desc[0] for desc in mycursor.description]
+
+    data_df = pd.DataFrame(mycursor.fetchall(), columns=columns)
+
+    data_dict = data_df.to_dict(orient="list")
+
+    compare_carlist_id = pd.DataFrame(data_dict)
+
+    #ic("compare_carlist_id:",compare_carlist_id)
+    ###########
 
     for row_count in range(0, 1):
         chunk = links_on_one_page_df.iloc[row_count:row_count + 1,:].values.tolist()
@@ -291,7 +318,7 @@ def fonksiyon(i):
         link = ""
         created_at = ""
         updated_at = ""
-        status = ""
+        status = 1
 
         control = "true"
 
@@ -301,7 +328,10 @@ def fonksiyon(i):
 
         len_for_ad_link = len(links_on_one_page_df.ad_link)
         #print("links_on_one_page_df:",links_on_one_page_df)
-
+        
+#        for d in range(len_for_ad_link):
+#            ic("car_ids:",int(links_on_one_page_df.ad_link[d][51:60]))
+        
         #print("len_for_ad_link:",len_for_ad_link)
 
         links_on_one_page_df = links_on_one_page_df.replace(np.nan, "")
@@ -314,9 +344,14 @@ def fonksiyon(i):
                 count = l + 1
             except:
                 pass
-
+            
             if "ad_link" in links_on_one_page_df:
-
+                try:
+                    carlist_id = links_on_one_page_df.ad_link[l][51:60]
+                except:
+                    carlist_id = ""
+            
+            if "ad_link" in links_on_one_page_df:
                 try:
                     ad_link = links_on_one_page_df.ad_link[l]
                 except:
@@ -340,7 +375,8 @@ def fonksiyon(i):
                 except:
                     created_at = ""
 
-            if (ad_link == ""):
+            #if (ad_link == ""):
+            if  int(links_on_one_page_df.ad_link[l][51:60]) in compare_carlist_id:
                 control = "false"
             else:
                 control = "true"
@@ -349,18 +385,25 @@ def fonksiyon(i):
                 mySql_insert_query = "INSERT INTO adlinks_de_mileage_asc (id,count,carlist_id,brand_model,ad_link,link,created_at,updated_at,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
                 val =                                                    (id,count,carlist_id,brand_model,ad_link,link,created_at,updated_at,status)
 
-                #cursor = scrap_db.cursor()
+                
                 cursor.execute(mySql_insert_query, val) # cursor.executemany(mySql_insert_query, tuple_of_tuples)
 
                 scrap_db.commit()
                 print(cursor.rowcount, "Record inserted successfully into *adlinks_de_mileage_asc* table")
 
-                #Disconnect from server
-                #scrap_db.close()
-
+    #cursor.execute(" SELECT ad_link, count(ad_link) FROM adlinks_de_mileage_asc  GROUP BY ad_link HAVING COUNT(ad_link) > 1 ")
+    #print('Duplicate Rows:')               
+    #for row in cursor.fetchall(): print(row)
+    
+    #cursor.execute("CREATE TABLE adlinks_de_mileage_asc_unique SELECT DISTINCT ad_link FROM adlinks_de_mileage_asc")
+    
+    
+    #Disconnect from server
+    scrap_db.close()
+'''
 if __name__ == '__main__':
     with concurrent.futures.ProcessPoolExecutor() as executor:  # ThreadPoolExecutor
         i = list(range(x,y))    # i = [0,1,2,3...100]
         executor.map(fonksiyon,i)
-
+'''
 
