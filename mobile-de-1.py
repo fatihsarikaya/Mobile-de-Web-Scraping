@@ -215,7 +215,7 @@ sql = """CREATE TABLE carlist_de_mileage_asc(
         model_id VARCHAR(16),
         link VARCHAR(255),
         created_at VARCHAR(32),
-        updated_at datetime,
+        updated_at VARCHAR(32),
         status tinyint(3)
         )"""
         
@@ -236,7 +236,7 @@ for row_count in range(0, 1):
         link = ""
         created_at = ""
         updated_at = ""
-        status = ""
+        status = 1
         
         
         #control = "true"
